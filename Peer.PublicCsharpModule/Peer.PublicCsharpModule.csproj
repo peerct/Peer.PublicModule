@@ -34,7 +34,9 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +50,8 @@
     <Compile Include="Httpapi\HttpApiInvokecs.cs" />
     <Compile Include="Httpapi\HttpWeb.cs" />
     <Compile Include="log\DebugLog.cs" />
+    <Compile Include="PrintLib\CommonMethod.cs" />
+    <Compile Include="PrintLib\ImagePrinter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowsServices\SelfInstaller.cs" />
     <Compile Include="xml\XMLHelper.cs" />
