@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallProcess\CmdCallPython.cs" />
     <Compile Include="CsharpCommon\utils.cs" />
     <Compile Include="email\SendEmail.cs" />
     <Compile Include="Httpapi\HttpApiInvokecs.cs" />
