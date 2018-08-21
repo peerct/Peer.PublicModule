@@ -1,4 +1,37 @@
-﻿using System;
+﻿
+/*   
+'                   _ooOoo_
+'                  o8888888o
+'                  88" . "88
+'                  (| -_- |)
+'                  O\  =  /O
+'               ____/`---'\____
+'             .'  \\|     |//  `.
+'            /  \\|||  :  |||//  \
+'           /  _||||| -:- |||||-  \
+'           |   | \\\  -  /// |   |
+'           | \_|  ''\---/''  |   |
+'           \  .-\__  `-`  ___/-. /
+'         ___`. .'  /--.--\  `. . __
+'      ."" '<  `.___\_<|>_/___.'  >'"".
+'     | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+'     \  \ `-.   \_ __\ /__ _/   .-` /  /
+'======`-.____`-.___\_____/___.-`____.-'======
+'                   `=---='
+'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'         佛祖保佑       永无BUG
+'==============================================================================
+'文件
+'名称: 
+'功能: 
+'作者: peer
+'日期: 
+'修改:
+'日期:
+'备注:
+'==============================================================================
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -224,7 +257,6 @@ namespace Peer.PublicCsharpModule.CsharpCommon
 
     public class DateTools
     {
-        private static int timezone = 8;
         public static DateTime GetNow()
         {
             return DateTime.UtcNow.AddHours(8);// 以UTC时间为准的时间戳
@@ -293,6 +325,31 @@ namespace Peer.PublicCsharpModule.CsharpCommon
                 default:
                     return string.Empty;
             }
+        }
+
+        /// <summary>
+        /// 时间戳转换为时间
+        /// </summary>
+        /// <param name="_TimeStamp"></param>
+        /// <returns></returns>
+        public static DateTime ConvertStampToTime( Int64 _TimeStamp)
+        {
+            DateTime TempDateTime = new DateTime();
+            DateTime StartTime = new DateTime(1970, 1, 1);
+            TempDateTime = Convert.ToDateTime(StartTime.AddSeconds(_TimeStamp));
+            return TempDateTime;
+        }
+
+        /// <summary>
+        /// 时间转换为时间戳数据
+        /// </summary>
+        /// <param name="_TimeStamp"></param>
+        /// <returns></returns>
+        public static Int64 ConvertToTimeStamp( DateTime _DateTime)
+        {
+            DateTime StartTime = new DateTime(1970, 1, 1);
+            TimeSpan TempTimeSpan = _DateTime.Subtract(StartTime).Duration();
+            return Convert.ToInt64(TempTimeSpan.TotalSeconds);
         }
     }
 }

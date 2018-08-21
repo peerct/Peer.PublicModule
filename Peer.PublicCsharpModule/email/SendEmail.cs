@@ -1,11 +1,43 @@
-﻿using System;
+﻿
+/*   
+'                   _ooOoo_
+'                  o8888888o
+'                  88" . "88
+'                  (| -_- |)
+'                  O\  =  /O
+'               ____/`---'\____
+'             .'  \\|     |//  `.
+'            /  \\|||  :  |||//  \
+'           /  _||||| -:- |||||-  \
+'           |   | \\\  -  /// |   |
+'           | \_|  ''\---/''  |   |
+'           \  .-\__  `-`  ___/-. /
+'         ___`. .'  /--.--\  `. . __
+'      ."" '<  `.___\_<|>_/___.'  >'"".
+'     | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+'     \  \ `-.   \_ __\ /__ _/   .-` /  /
+'======`-.____`-.___\_____/___.-`____.-'======
+'                   `=---='
+'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'         佛祖保佑       永无BUG
+'==============================================================================
+'文件
+'名称: 
+'功能: 
+'作者: peer
+'日期: 
+'修改:
+'日期:
+'备注:
+'==============================================================================
+*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
-using Peer.PublicCsharpModule.CSharpLogToFile;
 using System.Threading;
 namespace Peer.PublicCsharpModule.PCSharpemail
 {
@@ -44,9 +76,7 @@ namespace Peer.PublicCsharpModule.PCSharpemail
             }
             catch (Exception ex)
             {
-                CSharpLogToFile.LogManager.WriteLog(LogFile.Error, ex.Message.ToString());
-
-                return false;
+                throw ex;
             }
         }
 
@@ -122,8 +152,6 @@ namespace Peer.PublicCsharpModule.PCSharpemail
                     errorMsg.Append(current.Message);
                     current = current.InnerException;
                 }
-
-                LogManager.WriteLog(LogFile.Error, errorMsg.ToString());
             }
             finally
             {

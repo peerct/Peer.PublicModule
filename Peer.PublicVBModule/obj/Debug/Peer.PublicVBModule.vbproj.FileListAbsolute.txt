@@ -1,0 +1,8 @@
+D:\MaiHe\Peer.PublicModule\Peer.PublicVBModule\bin\Debug\Peer.PublicVBModule.dll
+D:\MaiHe\Peer.PublicModule\Peer.PublicVBModule\bin\Debug\Peer.PublicVBModule.pdb
+D:\MaiHe\Peer.PublicModule\Peer.PublicVBModule\bin\Debug\Peer.PublicVBModule.xml
+D:\MaiHe\Peer.PublicModule\Peer.PublicVBModule\obj\Debug\Peer.PublicVBModule.Resources.resources
+D:\MaiHe\Peer.PublicModule\Peer.PublicVBModule\obj\Debug\Peer.PublicVBModule.vbproj.GenerateResource.Cache
+D:\MaiHe\Peer.PublicModule\Peer.PublicVBModule\obj\Debug\Peer.PublicVBModule.dll
+D:\MaiHe\Peer.PublicModule\Peer.PublicVBModule\obj\Debug\Peer.PublicVBModule.xml
+D:\MaiHe\Peer.PublicModule\Peer.PublicVBModule\obj\Debug\Peer.PublicVBModule.pdb

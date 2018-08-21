@@ -1,0 +1,11 @@
+D:\MaiHe\Peer.PublicModule\TjLog4.0\TjLog\bin\x86\Debug\Log4netSetFile.config
+D:\MaiHe\Peer.PublicModule\TjLog4.0\TjLog\bin\x86\Debug\TjLog.dll
+D:\MaiHe\Peer.PublicModule\TjLog4.0\TjLog\bin\x86\Debug\TjLog.pdb
+D:\MaiHe\Peer.PublicModule\TjLog4.0\TjLog\bin\x86\Debug\TjLog.xml
+D:\MaiHe\Peer.PublicModule\TjLog4.0\TjLog\bin\x86\Debug\log4net.dll
+D:\MaiHe\Peer.PublicModule\TjLog4.0\TjLog\obj\x86\Debug\TjLog.vbprojResolveAssemblyReference.cache
+D:\MaiHe\Peer.PublicModule\TjLog4.0\TjLog\obj\x86\Debug\TjLog.Resources.resources
+D:\MaiHe\Peer.PublicModule\TjLog4.0\TjLog\obj\x86\Debug\TjLog.vbproj.GenerateResource.Cache
+D:\MaiHe\Peer.PublicModule\TjLog4.0\TjLog\obj\x86\Debug\TjLog.dll
+D:\MaiHe\Peer.PublicModule\TjLog4.0\TjLog\obj\x86\Debug\TjLog.xml
+D:\MaiHe\Peer.PublicModule\TjLog4.0\TjLog\obj\x86\Debug\TjLog.pdb

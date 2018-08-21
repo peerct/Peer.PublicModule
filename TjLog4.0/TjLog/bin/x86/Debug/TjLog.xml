@@ -1,0 +1,86 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+TjLog
+</name>
+</assembly>
+<members>
+<member name="M:TjLog.Log.InfoLog(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+	</summary>
+	<param name="message">日志消息完整信息</param>
+	<param name="plat_code">平台编码</param>
+	<param name="interface_code">平台模块编码</param>
+	<param name="interface_name">平台模块名称</param>
+	<param name="KeyInfo">日志消息关键词</param>
+	<param name="from_user">日志消息来源标识</param>
+	<param name="to_user">日志消息目标标识</param>
+	<remarks></remarks>
+</member><member name="M:TjLog.Log.ErrorLog(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+	</summary>
+	<param name="message">日志消息完整信息</param>
+	<param name="plat_code">平台编码</param>
+	<param name="interface_code">平台模块编码</param>
+	<param name="interface_name">平台模块名称</param>
+	<param name="KeyInfo">日志消息关键词</param>
+	<param name="from_user">日志消息来源标识</param>
+	<param name="to_user">日志消息目标标识</param>
+	<remarks></remarks>
+</member><member name="M:TjLog.Log.WarnLog(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+	</summary>
+	<param name="message">日志消息完整信息</param>
+	<param name="plat_code">平台编码</param>
+	<param name="interface_code">平台模块编码</param>
+	<param name="interface_name">平台模块名称</param>
+	<param name="KeyInfo">日志消息关键词</param>
+	<param name="from_user">日志消息来源标识</param>
+	<param name="to_user">日志消息目标标识</param>
+	<remarks></remarks>
+</member><member name="M:TjLog.Log.FatalLog(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+	</summary>
+	<param name="message">日志消息完整信息</param>
+	<param name="plat_code">平台编码</param>
+	<param name="interface_code">平台模块编码</param>
+	<param name="interface_name">平台模块名称</param>
+	<param name="KeyInfo">日志消息关键词</param>
+	<param name="from_user">日志消息来源标识</param>
+	<param name="to_user">日志消息目标标识</param>
+	<remarks></remarks>
+</member><member name="M:TjLog.Log.DebugLog(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+	</summary>
+	<param name="message">日志消息完整信息</param>
+	<param name="plat_code">平台编码</param>
+	<param name="interface_code">平台模块编码</param>
+	<param name="interface_name">平台模块名称</param>
+	<param name="KeyInfo">日志消息关键词</param>
+	<param name="from_user">日志消息来源标识</param>
+	<param name="to_user">日志消息目标标识</param>
+	<remarks></remarks>
+</member><member name="M:TjLog.Log.getLogInfo(System.Diagnostics.StackFrame)">
+	<summary>
+ 在异常处理中返回具体位置（使用方法：dim trackRecord as string= Log.getLogInfo(new StackFrame(true))）
+ </summary>
+	<param name="stackFrameins"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="P:TjLog.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:TjLog.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:TjLog.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>

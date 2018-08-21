@@ -31,10 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.JScript" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -45,17 +49,38 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CallProcess\CmdCallPython.cs" />
+    <Compile Include="Config\AppSettingConfigLib.cs" />
+    <Compile Include="Config\iniFileOperateLib.cs" />
+    <Compile Include="CsharpCommon\DebugTimer.cs" />
+    <Compile Include="CsharpCommon\DirFileOperateLib.cs" />
+    <Compile Include="CsharpCommon\FifoQueueLib.cs" />
+    <Compile Include="CsharpCommon\JsonConvertLib.cs" />
+    <Compile Include="CsharpCommon\PinYinConverterLib.cs" />
+    <Compile Include="CsharpCommon\SecurityLib.cs" />
+    <Compile Include="CsharpCommon\SerializeLib.cs" />
     <Compile Include="CsharpCommon\utils.cs" />
     <Compile Include="email\SendEmail.cs" />
     <Compile Include="Httpapi\HttpApiInvokecs.cs" />
     <Compile Include="Httpapi\HttpWeb.cs" />
-    <Compile Include="log\DebugLog.cs" />
+    <Compile Include="network\FtpLib.cs" />
+    <Compile Include="network\HttpLib.cs" />
+    <Compile Include="network\HttpProcessLib.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="PrintLib\CommonMethod.cs" />
     <Compile Include="PrintLib\ImagePrinter.cs" />
+    <Compile Include="PrintLib\ImageProcessLib.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThreadLib\AsynLib.cs" />
+    <Compile Include="ThreadLib\CustomNodeCache.cs" />
+    <Compile Include="CsharpCommon\CustomResult.cs" />
+    <Compile Include="ThreadLib\CustomThreadPool.cs" />
     <Compile Include="WindowsServices\SelfInstaller.cs" />
-    <Compile Include="xml\XMLHelper.cs" />
+    <Compile Include="xml\XmlConvertLib.cs" />
+    <Compile Include="xml\XmlCreateLib.cs" />
+    <Compile Include="xml\XmlReadLib.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

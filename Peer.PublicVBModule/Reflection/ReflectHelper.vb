@@ -1,4 +1,38 @@
-﻿Imports System
+﻿
+'/*   
+''                   _ooOoo_
+''                  o8888888o
+''                  88" . "88
+''                  (| -_- |)
+''                  O\  =  /O
+''               ____/`---'\____
+''             .'  \\|     |//  `.
+''            /  \\|||  :  |||//  \
+''           /  _||||| -:- |||||-  \
+''           |   | \\\  -  /// |   |
+''           | \_|  ''\---/''  |   |
+''           \  .-\__  `-`  ___/-. /
+''         ___`. .'  /--.--\  `. . __
+''      ."" '<  `.___\_<|>_/___.'  >'"".
+''     | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+''     \  \ `-.   \_ __\ /__ _/   .-` /  /
+''======`-.____`-.___\_____/___.-`____.-'======
+''                   `=---='
+''^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+''         佛祖保佑       永无BUG
+''==============================================================================
+''文件
+''名称: 
+''功能: 
+''作者: peer
+''日期: 
+''修改:
+''日期:
+''备注:
+''==============================================================================
+'*/
+
+Imports System
 Imports System.Collections.Generic
 Imports System.Text
 Imports System.Data
@@ -17,7 +51,7 @@ Imports System.CodeDom.Compiler
 
 Namespace VBReflection
     ''' <summary>
-    ''' 此类是通过反射机制加载外部DLL的辅助类;主要完成对与.net类库和webservice的动态调用
+    ''' 此类是通过反射机制加载外部DLL的辅助类;主要完成对与.net类库的动态调用
     ''' </summary>
     ''' <remarks></remarks>
     Public Class ReflectHelper
@@ -76,10 +110,7 @@ Namespace VBReflection
                 For Each xn0 As XmlNode In nodelist0
                     If xn0.NodeType <> XmlNodeType.Comment Then
                         Dim xe0 As XmlElement = CType(xn0, XmlElement)
-                        'VBLogToFile.LogManager.WriteLog(VBLogToFile.LogType.Trace, "参数解析" + xe0.Name + ":" + keyvalue.Name)
-                        'VBLogToFile.LogManager.WriteLog(VBLogToFile.LogType.Trace, "参数类型" + keyvalue.ParameterType.Name + ":" + GetType(String).ToString)
-                        If xe0.Name = keyvalue.Name Then
-                            'VBLogToFile.LogManager.WriteLog(VBLogToFile.LogType.Trace, "开始转换:" + xe0.InnerText)
+                      If xe0.Name = keyvalue.Name Then
                             Select Case keyvalue.ParameterType.Name
                                 Case "String"
                                     ParasObj(i) = Convert.ToString(Trim(xe0.InnerText))
@@ -94,7 +125,6 @@ Namespace VBReflection
                                 Case "DateTime"
                                     ParasObj(i) = Convert.ToDateTime(Trim(xe0.InnerText))
                             End Select
-                            'VBLogToFile.LogManager.WriteLog(VBLogToFile.LogType.Trace, "转换结束:" + ParasObj(i))
                             Exit For
                         End If
                     End If
@@ -121,10 +151,8 @@ Namespace VBReflection
                 AssemblyInfoIns = GetOrgService(OrgCode)
                 key = CurNameSpace + "." + CurClassName
                 If AssemblyInfoIns.dic.ContainsKey(key) = False Then
-                    'AssemblyInfoIns.VBAssembly = Assembly.LoadFrom(CurDllPath)
                     Dim filedata As Byte() = File.ReadAllBytes(CurDllPath)
                     AssemblyInfoIns.VBAssembly = Assembly.Load(filedata)
-
                     Dim Net_ClassInfoIns As New ClassInfo
                     '由命名空间和类名获取到类这个类型
                     Net_ClassInfoIns.VBType = AssemblyInfoIns.VBAssembly.GetType(key)
@@ -146,9 +174,7 @@ Namespace VBReflection
                         Dim ParasObj As Object() = Nothing
                         If Paras IsNot Nothing Then
                             ReDim ParasObj(AssemblyInfoIns.dic(key).VBParasInfo(CurMethodName).Count - 1)
-                            'VBLogToFile.LogManager.WriteLog(VBLogToFile.LogType.Trace, Paras + "开始参数处理")
                             ParaAnalytic(Paras, AssemblyInfoIns.dic(key).VBParasInfo(CurMethodName), ParasObj)
-                            'VBLogToFile.LogManager.WriteLog(VBLogToFile.LogType.Trace, ParasObj(0).ToString + "结束参数处理")
                         End If
                         '执行方法
                         Result = AssemblyInfoIns.dic(key).VBMethodInfo(CurMethodName).Invoke(AssemblyInfoIns.dic(key).VBInstance, ParasObj)
@@ -173,31 +199,21 @@ Namespace VBReflection
         Public Sub AddDllToMemory(ByVal OrgCode As String, ByVal CurDllPath As String, ByVal CurNameSpace As String, ByVal CurClassName As String, ByVal CurMethodName As String)
             Dim AssemblyInfoIns As AssemblyInfo = GetOrgService(OrgCode)
             Dim key As String = CurNameSpace + "." + CurClassName
-            'VBLogToFile.LogManager.WriteLog(VBLogToFile.LogType.Trace, key)
             Try
                 If AssemblyInfoIns.dic.ContainsKey(key) = False Then
-                    'VBLogToFile.LogManager.WriteLog(VBLogToFile.LogType.Trace, "进入AssemblyInfoIns.dic")
-                    'AssemblyInfoIns.VBAssembly = Assembly.LoadFrom(CurDllPath)
                     Dim filedata As Byte() = File.ReadAllBytes(CurDllPath)
                     AssemblyInfoIns.VBAssembly = Assembly.Load(filedata)
-
                     Dim Net_ClassInfoIns As New ClassInfo
-                    '由命名空间和类名获取到类这个类型
                     Net_ClassInfoIns.VBType = AssemblyInfoIns.VBAssembly.GetType(key)
                     '创建上面类的对象实例
                     Net_ClassInfoIns.VBInstance = Activator.CreateInstance(Net_ClassInfoIns.VBType)
                     '写入此类的内存结构
                     AssemblyInfoIns.dic.Add(key, Net_ClassInfoIns)
-                    'VBLogToFile.LogManager.WriteLog(VBLogToFile.LogType.Trace, "结束AssemblyInfoIns.dic")
                 End If
                 If AssemblyInfoIns.dic(key).VBMethodInfo.ContainsKey(CurMethodName) = False Then
                     '添加方法名和参数集合
-                    'VBLogToFile.LogManager.WriteLog(VBLogToFile.LogType.Trace, "进入AssemblyInfoIns.dic(key).VBMethodInfo")
                     AssemblyInfoIns.dic(key).VBMethodInfo.Add(CurMethodName, AssemblyInfoIns.dic(key).VBType.GetMethod(CurMethodName))
-                    'VBLogToFile.LogManager.WriteLog(VBLogToFile.LogType.Trace, "结束AssemblyInfoIns.dic(key).VBMethodInfo")
-                    'VBLogToFile.LogManager.WriteLog(VBLogToFile.LogType.Trace, "进入AssemblyInfoIns.dic(key).VBParasInfo")
                     AssemblyInfoIns.dic(key).VBParasInfo.Add(CurMethodName, AssemblyInfoIns.dic(key).VBMethodInfo(CurMethodName).GetParameters())
-                    'VBLogToFile.LogManager.WriteLog(VBLogToFile.LogType.Trace, "结束AssemblyInfoIns.dic(key).VBMethodInfo")
                 End If
             Catch ex As Exception
                 Throw ex
