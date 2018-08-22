@@ -38,7 +38,7 @@ using System.Text;
 using System.Xml;
 using System.Data;
 using System.Diagnostics;
-namespace Peer.PublicCsharpModule.CSharpXml
+namespace Peer.PublicCsharpModule.xml
 {
     /// <summary>
     /// XMLHelper XML文档操作管理器

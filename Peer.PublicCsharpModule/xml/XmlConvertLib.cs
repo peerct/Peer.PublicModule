@@ -39,7 +39,7 @@ using System.Text;
 using System.Data;
 using System.IO;
 
-namespace Peer.PublicCsharpModule.CSharpXml
+namespace Peer.PublicCsharpModule.xml
 {
     public class XmlConvertLib
     {

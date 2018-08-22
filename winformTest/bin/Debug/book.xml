@@ -1,4 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <books>
-  <book id="2">这是新节点中的文本值<name>我的世界我的梦</name></book>
+  <book>这是新节点中的文本值<name>123</name></book>
 </books>

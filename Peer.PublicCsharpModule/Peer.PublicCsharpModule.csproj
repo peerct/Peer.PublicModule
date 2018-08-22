@@ -51,6 +51,7 @@
     <Compile Include="CallProcess\CmdCallPython.cs" />
     <Compile Include="Config\AppSettingConfigLib.cs" />
     <Compile Include="Config\iniFileOperateLib.cs" />
+    <Compile Include="CsharpCommon\XmlDatasetConvert.cs" />
     <Compile Include="CsharpCommon\DebugTimer.cs" />
     <Compile Include="CsharpCommon\DirFileOperateLib.cs" />
     <Compile Include="CsharpCommon\FifoQueueLib.cs" />
@@ -62,6 +63,8 @@
     <Compile Include="email\SendEmail.cs" />
     <Compile Include="Httpapi\HttpApiInvokecs.cs" />
     <Compile Include="Httpapi\HttpWeb.cs" />
+    <Compile Include="Log\ApplicationException.cs" />
+    <Compile Include="Log\LogLib.cs" />
     <Compile Include="network\FtpLib.cs" />
     <Compile Include="network\HttpLib.cs" />
     <Compile Include="network\HttpProcessLib.cs">
@@ -76,6 +79,7 @@
     <Compile Include="CsharpCommon\CustomResult.cs" />
     <Compile Include="ThreadLib\CustomThreadPool.cs" />
     <Compile Include="WindowsServices\SelfInstaller.cs" />
+    <Compile Include="xml\ClassicXML.cs" />
     <Compile Include="xml\XmlConvertLib.cs" />
     <Compile Include="xml\XmlCreateLib.cs" />
     <Compile Include="xml\XmlReadLib.cs" />

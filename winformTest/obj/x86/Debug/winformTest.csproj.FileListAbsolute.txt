@@ -1,6 +1,5 @@
 D:\MaiHe\Peer.PublicModule\winformTest\bin\Debug\winformTest.exe
 D:\MaiHe\Peer.PublicModule\winformTest\bin\Debug\winformTest.pdb
-D:\MaiHe\Peer.PublicModule\winformTest\obj\x86\Debug\winformTest.csprojResolveAssemblyReference.cache
 D:\MaiHe\Peer.PublicModule\winformTest\obj\x86\Debug\winformTest.Form1.resources
 D:\MaiHe\Peer.PublicModule\winformTest\obj\x86\Debug\winformTest.Properties.Resources.resources
 D:\MaiHe\Peer.PublicModule\winformTest\obj\x86\Debug\winformTest.csproj.GenerateResource.Cache
@@ -12,3 +11,6 @@ D:\MaiHe\Peer.PublicModule\winformTest\bin\Debug\Peer.PublicVBModule.pdb
 D:\MaiHe\Peer.PublicModule\winformTest\bin\Debug\Peer.PublicVBModule.xml
 D:\MaiHe\Peer.PublicModule\winformTest\bin\Debug\Peer.PublicCsharpModule.dll
 D:\MaiHe\Peer.PublicModule\winformTest\bin\Debug\Peer.PublicCsharpModule.pdb
+D:\MaiHe\Peer.PublicModule\winformTest\obj\x86\Debug\winformTest.csprojAssemblyReference.cache
+D:\MaiHe\Peer.PublicModule\winformTest\obj\x86\Debug\winformTest.csproj.CoreCompileInputs.cache
+D:\MaiHe\Peer.PublicModule\winformTest\obj\x86\Debug\winformTest.csproj.CopyComplete
