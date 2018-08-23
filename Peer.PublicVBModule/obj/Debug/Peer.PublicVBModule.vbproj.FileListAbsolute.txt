@@ -6,5 +6,4 @@ D:\MaiHe\Peer.PublicModule\Peer.PublicVBModule\obj\Debug\Peer.PublicVBModule.vbp
 D:\MaiHe\Peer.PublicModule\Peer.PublicVBModule\obj\Debug\Peer.PublicVBModule.dll
 D:\MaiHe\Peer.PublicModule\Peer.PublicVBModule\obj\Debug\Peer.PublicVBModule.xml
 D:\MaiHe\Peer.PublicModule\Peer.PublicVBModule\obj\Debug\Peer.PublicVBModule.pdb
-D:\MaiHe\Peer.PublicModule\Peer.PublicVBModule\obj\Debug\Peer.PublicVBModule.vbprojAssemblyReference.cache
 D:\MaiHe\Peer.PublicModule\Peer.PublicVBModule\obj\Debug\Peer.PublicVBModule.vbproj.CoreCompileInputs.cache

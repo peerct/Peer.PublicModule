@@ -289,5 +289,17 @@ namespace winformTest
              str= insXml.FormatXML(xmlDoc.InnerXml);
             MessageBox.Show(str);
         }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            Peer.PublicCsharpModule.Log.LogLib.WriteLog("测试", Peer.PublicCsharpModule.Log.LogType.Info);
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            int DelCount = 0;
+            Peer.PublicCsharpModule.CsharpCommon.DirFileOperateLib.DeleteExtFiles(@"D:\BLIMAGE\2017\4\15", new string[] { ".XML", ".txt" }, true, true, ref DelCount);
+            MessageBox.Show(DelCount.ToString());
+        }
     }
 }

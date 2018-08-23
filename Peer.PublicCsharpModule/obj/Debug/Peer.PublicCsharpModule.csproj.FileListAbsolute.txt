@@ -3,3 +3,4 @@ D:\MaiHe\Peer.PublicModule\Peer.PublicCsharpModule\bin\Debug\Peer.PublicCsharpMo
 D:\MaiHe\Peer.PublicModule\Peer.PublicCsharpModule\obj\Debug\Peer.PublicCsharpModule.dll
 D:\MaiHe\Peer.PublicModule\Peer.PublicCsharpModule\obj\Debug\Peer.PublicCsharpModule.pdb
 D:\MaiHe\Peer.PublicModule\Peer.PublicCsharpModule\obj\Debug\Peer.PublicCsharpModule.csproj.CoreCompileInputs.cache
+D:\MaiHe\Peer.PublicModule\Peer.PublicCsharpModule\obj\Debug\Peer.PublicCsharpModule.csprojAssemblyReference.cache

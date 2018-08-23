@@ -9,15 +9,81 @@ namespace Peer.PublicCsharpModule.Log
 {
    public class LogLib
     {
+        #region 删除指定目录下几天之前的文件
+        public static void DeleteFolorAFile(int Day)
+        {
+            var pathStr = Path.GetFullPath(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+            pathStr = Path.Combine(pathStr, "syslog");
+            if (Directory.Exists(pathStr) == false)
+            {
+                Directory.CreateDirectory(pathStr);
+            }
+            //参数为非负数，则默认删一周前的日志
+            if (Day >= 0)
+            {
+                Day = -7;
+            }
+            DirectoryInfo di = new DirectoryInfo(@pathStr);
+            //获取子文件夹列表
+            foreach (DirectoryInfo dir in di.GetDirectories())
+            {
+                if (dir.CreationTime < DateTime.Today.AddDays(Day))
+                {
+                    DeleteFolder(@dir.FullName);
+                }
+            }
+            DeleteLogFiles(pathStr, Day);
+        }
+        private static void DeleteLogFiles(string FolorStr, int Day)
+        {
+            try
+            {
+                if (Directory.Exists(FolorStr) == true)
+                {
+                    DirectoryInfo dir = new DirectoryInfo(@FolorStr);
+                    foreach (FileInfo fi in dir.GetFiles())
+                    {
+                        if (Day < 0)
+                        {
+                            if (fi.CreationTime < DateTime.Today.AddDays(Day))
+                                fi.Delete();
+                        }
+                        else
+                        {
+                            fi.Delete();
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+        }
+        /// <summary>
+        /// 用递归方法删除文件夹目录及文件
+        /// </summary>
+        /// <param name="dir">带文件夹名的路径</param> 
+        private static void DeleteFolder(string dir)
+        {
+            if (Directory.Exists(dir)) //如果存在这个文件夹删除之 
+            {
+                foreach (string d in Directory.GetFileSystemEntries(dir))
+                {
+                    if (File.Exists(d))
+                        File.Delete(d); //直接删除其中的文件                        
+                    else
+                        DeleteFolder(d); //递归删除子文件夹 
+                }
+                Directory.Delete(dir, true); //删除已空文件夹                 
+            }
+        }
+        #endregion
+
 
         //直接写日志信息
         public static void WriteLog(string Msg, LogType MsgType)
         {
-            string varAppPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "log";
-            if (Directory.Exists(varAppPath) == false)
-            {
-                Directory.CreateDirectory(varAppPath);
-            }
             var pathStr = Path.GetFullPath(AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
             pathStr = Path.Combine(pathStr, "syslog");
             pathStr = Path.Combine(pathStr, DateTime.Now.Year.ToString());
@@ -102,9 +168,6 @@ namespace Peer.PublicCsharpModule.Log
             logInfo = null;
             return Info;
         }
-
-
-
     }
     public enum LogType
     {

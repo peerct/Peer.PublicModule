@@ -74,7 +74,15 @@ namespace Peer.PublicCsharpModule.network
                 StreamReader sr = new StreamReader(streamIns, encoding);
                 RetDataStr = sr.ReadToEnd();
                 sr.Close();
-                response.Close();
+                if (response != null)
+                {
+                    response.Close();
+                    response = null;
+                }
+                if (request != null)
+                {
+                    request.Abort();
+                }
             }
             catch
             {
@@ -177,6 +185,7 @@ namespace Peer.PublicCsharpModule.network
             }
             if (myRequest != null)
             {
+                myRequest.Abort();
                 myRequest = null;
             }
             return Datastr;
@@ -194,8 +203,10 @@ namespace Peer.PublicCsharpModule.network
             {
                 newStream.Write(data, 0, data.Length);
             }
-            HttpWebResponse myResponse = myRequest.GetResponse() as HttpWebResponse;
-            return myResponse.GetResponseStream();
+            using (HttpWebResponse myResponse = myRequest.GetResponse() as HttpWebResponse)
+            {
+                return myResponse.GetResponseStream();
+            }
         }
         public static string HttpPost2(string action, string data)
         {
