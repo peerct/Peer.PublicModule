@@ -74,6 +74,7 @@
     <Compile Include="PrintLib\ImagePrinter.cs" />
     <Compile Include="PrintLib\ImageProcessLib.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StreamHelper.cs" />
     <Compile Include="ThreadLib\AsynLib.cs" />
     <Compile Include="ThreadLib\CustomNodeCache.cs" />
     <Compile Include="CsharpCommon\CustomResult.cs" />
@@ -83,6 +84,8 @@
     <Compile Include="xml\XmlConvertLib.cs" />
     <Compile Include="xml\XmlCreateLib.cs" />
     <Compile Include="xml\XmlReadLib.cs" />
+    <Compile Include="zip\CompressHelper.cs" />
+    <Compile Include="zip\GzipLib.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

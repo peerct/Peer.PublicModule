@@ -5,6 +5,7 @@ using System.Text;
 using System.Net;
 using System.IO;
 using System.Data;
+using System.IO.Compression;
 
 namespace Peer.PublicCsharpModule.network
 {
@@ -342,6 +343,59 @@ namespace Peer.PublicCsharpModule.network
             MyResponseStream.Close();
             MyResponseStream.Dispose();
             return TempResult;
+        }
+        /// <summary>
+        /// C#使用GZIP解压缩完整读取网页内容
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static string GetHtmlWithUtf(string url)
+        {
+            if (!(url.Contains("http://") || url.Contains("https://")))
+            {
+                url = "http://" + url;
+            }
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
+            req.UserAgent = "User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)";
+            req.Accept = "*/*";
+            req.Headers.Add("Accept-Language", "zh-cn,en-us;q=0.5");
+            req.ContentType = "text/xml";
+
+            string sHTML = "";
+            using (HttpWebResponse response = (HttpWebResponse)req.GetResponse())
+            {
+                if (response.ContentEncoding.ToLower().Contains("gzip"))
+                {
+                    using (GZipStream stream = new GZipStream(response.GetResponseStream(), CompressionMode.Decompress))
+                    {
+                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                        {
+                            sHTML = reader.ReadToEnd();
+                        }
+                    }
+                }
+                else if (response.ContentEncoding.ToLower().Contains("deflate"))
+                {
+                    using (DeflateStream stream = new DeflateStream(response.GetResponseStream(), CompressionMode.Decompress))
+                    {
+                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                        {
+                            sHTML = reader.ReadToEnd();
+                        }
+                    }
+                }
+                else
+                {
+                    using (Stream stream = response.GetResponseStream())
+                    {
+                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                        {
+                            sHTML = reader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+            return sHTML;
         }
     }
 
