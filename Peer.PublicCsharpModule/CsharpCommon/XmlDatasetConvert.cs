@@ -114,7 +114,7 @@ namespace Peer.PublicCsharpModule.CsharpCommon
                 //返回Unicode编码的文本
                 UnicodeEncoding utf = new UnicodeEncoding();
                 StreamWriter sw = new StreamWriter(xmlFile);
-                sw.WriteLine("<?xml version=\\"1.0\\" encoding=\\"utf - 8\\"?>");
+                sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf - 8\"?>");
                 sw.WriteLine(utf.GetString(arr).Trim());
                 sw.Close();
             }

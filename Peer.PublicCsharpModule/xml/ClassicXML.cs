@@ -4,13 +4,30 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web;
 using System.Xml;
 
 namespace Peer.PublicCsharpModule.xml
 {
-   public class ClassicXML
+    public class ClassicXML
     {
         private XmlDocument xmlDoc = null;
+
+        #region 构造析构函数
+        public ClassicXML()
+        {
+            xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml("<xml/>");
+            _XMLPath = "";
+            _errorInfo = "";
+        }
+        ~ClassicXML()
+        {
+            _XMLPath = "";
+            _errorInfo = "";
+            xmlDoc = null;
+        }
+        #endregion
 
         #region 公有属性
         private string _XMLPath;
@@ -19,11 +36,85 @@ namespace Peer.PublicCsharpModule.xml
             get { return this._XMLPath; }
         }
         //最后的错误信息
-        private string errorInfo;
+        private string _errorInfo;
         public string LastError
         {
-            get { return this.errorInfo; }
+            get { return this._errorInfo; }
         }
+        #endregion
+
+
+        #region XmlDocument基本操作
+        public void BaseOperateXmlFile(string filename, string SectionName)
+        {
+            //创建XmlDocument对象
+
+            XmlDocument xmlDoc = new XmlDocument();
+
+            //载入xml文件名
+
+            xmlDoc.Load(filename);
+
+            //读取根节点的所有子节点，放到xn0中
+
+            XmlNodeList xn0 = xmlDoc.DocumentElement.ChildNodes;
+
+            //查找二级节点的内容或属性
+
+            foreach (XmlNode node in xn0)
+
+            {
+
+                if (node.Name.Equals(SectionName))
+
+                {
+
+                    string innertext = node.InnerText.Trim(); //匹配二级节点的内容
+
+                    string attr = node.Attributes[0].ToString(); //属性
+
+                }
+
+            }
+
+        }
+
+        public void BaseOperateXmlString(string xmldata, string SectionName)
+        {
+            //创建XmlDocument对象
+
+            XmlDocument xmlDoc = new XmlDocument();
+
+            //如果是xml字符串，则用以下形式
+
+            xmlDoc.LoadXml(xmldata);
+
+            //读取根节点的所有子节点，放到xn0中
+
+            XmlNodeList xn0 = xmlDoc.DocumentElement.ChildNodes;
+
+            //查找二级节点的内容或属性
+
+            foreach (XmlNode node in xn0)
+
+            {
+
+                if (node.Name.Equals(SectionName))
+
+                {
+
+                    string innertext = node.InnerText.Trim(); //匹配二级节点的内容
+
+                    string attr = node.Attributes[0].ToString(); //属性
+
+                }
+
+            }
+
+        }
+
+
+
         #endregion
 
         /// <summary>
@@ -38,14 +129,14 @@ namespace Peer.PublicCsharpModule.xml
             try
             {
                 //加载XML文档
-                xmlDoc.Load(@xmlFilePath); 
+                xmlDoc.Load(@xmlFilePath);
                 _XMLPath = xmlFilePath;
-                errorInfo = "";
+                _errorInfo = "";
                 RetFlag = true;
             }
             catch (Exception ex)
             {
-                errorInfo= Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->ImportXmlFile", @xmlFilePath);
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->ImportXmlFile", @xmlFilePath);
             }
             return RetFlag;
         }
@@ -67,15 +158,15 @@ namespace Peer.PublicCsharpModule.xml
                 }
                 else
                 {
-                    xmlDoc.LoadXml("<?xml version='1.0' encoding='UTF-8'?>" + xmlString); //加载XML文档
+                    xmlDoc.LoadXml("<?xml version='1.0' encoding='utf-8'?>" + xmlString); //加载XML文档
                 }
                 _XMLPath = "";
-                errorInfo = "";
+                _errorInfo = "";
                 RetFlag = true;
             }
             catch (Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->ImportXmlStr", xmlString);
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->ImportXmlStr", xmlString);
             }
             return RetFlag;
         }
@@ -90,12 +181,12 @@ namespace Peer.PublicCsharpModule.xml
             try
             {
                 xmlDoc.Save(@outXmlFilePath);
-                RetFlag =  true;
-                errorInfo = "";
+                RetFlag = true;
+                _errorInfo = "";
             }
             catch (Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->ExportXmlFile", @outXmlFilePath);
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->ExportXmlFile", @outXmlFilePath);
             }
             return RetFlag;
         }
@@ -109,11 +200,11 @@ namespace Peer.PublicCsharpModule.xml
             try
             {
                 RetStr = xmlDoc.InnerXml;
-                errorInfo = "";
+                _errorInfo = "";
             }
             catch (Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->ExportXmlStr");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->ExportXmlStr");
             }
             return RetStr;
         }
@@ -124,9 +215,9 @@ namespace Peer.PublicCsharpModule.xml
         /// <param name="Key">第三层节点</param>
         /// <param name="DefaultValue">默认值</param>
         /// <returns></returns>
-        public string ReadKey(string Section,string Key,string DefaultValue = "")
+        public string ReadKey(string Section, string Key, string DefaultValue = "")
         {
-            string RetStr =DefaultValue;
+            string RetStr = DefaultValue;
             try
             {
                 //第一层根节点
@@ -143,25 +234,25 @@ namespace Peer.PublicCsharpModule.xml
                         XmlNode KeyNode = sectionNode.SelectSingleNode(Key);
                         if (KeyNode == null)
                         {
-                            errorInfo = "Key not found.";
+                            _errorInfo = "Key not found.";
                             RetStr = DefaultValue;
                         }
                         else
                         {
                             RetStr = KeyNode.InnerText;
-                            errorInfo = "";
+                            _errorInfo = "";
                         }
                     }
                     else
                     {
-                        errorInfo = "Section not found.";
+                        _errorInfo = "Section not found.";
                         RetStr = DefaultValue;
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->ReadKey");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->ReadKey");
             }
             return RetStr;
         }
@@ -191,37 +282,37 @@ namespace Peer.PublicCsharpModule.xml
                         XmlNode KeyNode = sectionNode.SelectSingleNode(Key);
                         if (KeyNode == null)
                         {
-                            errorInfo = "Key not found.";
+                            _errorInfo = "Key not found.";
                             RetFlag = false;
                         }
                         else
                         {
-                            KeyNode.InnerText= NodeValue;
+                            KeyNode.InnerText = NodeValue;
                             if (_XMLPath.Length > 0)
                             {
                                 if (ExportXmlFile(@_XMLPath))
                                 {
-                                    errorInfo = "";
+                                    _errorInfo = "";
                                     RetFlag = true;
                                 }
                             }
                             else
                             {
-                                errorInfo = "File not found.";
+                                _errorInfo = "File not found.";
                                 RetFlag = false;
                             }
                         }
                     }
                     else
                     {
-                        errorInfo = "Section not found.";
+                        _errorInfo = "Section not found.";
                         RetFlag = false;
                     }
                 }
             }
             catch (Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->WriteKey");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->WriteKey");
             }
             return RetFlag;
         }
@@ -238,16 +329,16 @@ namespace Peer.PublicCsharpModule.xml
                 string str = XMLString.Substring(0, 2);
                 if (str != "<?")
                 {
-                    XMLString="<?xml version='1.0' encoding='UTF-8'?>" + XMLString; //加载XML文档
+                    XMLString = "<?xml version='1.0' encoding='utf-8'?>" + XMLString; //加载XML文档
                 }
                 ds = new DataSet();
                 ds.ReadXml(new StringReader(XMLString));
-                errorInfo = "";
+                _errorInfo = "";
             }
             catch (Exception ex)
             {
                 ds = null;
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->XMLString2DataSet");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->XMLString2DataSet");
             }
             return ds;
         }
@@ -262,7 +353,7 @@ namespace Peer.PublicCsharpModule.xml
             try
             {
                 StringBuilder strXml = new StringBuilder();
-                strXml.Append("<?xml version='1.0' encoding='UTF-8'?>");
+                strXml.Append("<?xml version='1.0' encoding='utf-8'?>");
                 //添加根节点名称
                 strXml.AppendFormat("<XML>");
                 if (ds != null)
@@ -285,11 +376,11 @@ namespace Peer.PublicCsharpModule.xml
                 RetStr = strXml.ToString();
                 strXml.Clear();
                 strXml = null;
-                errorInfo = "";
+                _errorInfo = "";
             }
             catch (Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->DataSet2XmlString");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->DataSet2XmlString");
             }
             return RetStr;
         }
@@ -298,7 +389,7 @@ namespace Peer.PublicCsharpModule.xml
         /// </summary>
         /// <param name="xmlDS">dataset对象</param>
         /// <param name="xmlFile">xml文件路径</param>
-        public  void DataSet2XmlFile(DataSet xmlDS, string xmlFile)
+        public void DataSet2XmlFile(DataSet xmlDS, string xmlFile)
         {
             MemoryStream stream = null;
             XmlTextWriter writer = null;
@@ -316,14 +407,14 @@ namespace Peer.PublicCsharpModule.xml
 
                 //返回utf-8编码的文本
                 StreamWriter sw = new StreamWriter(xmlFile);
-                sw.WriteLine("<?xml version='1.0' encoding='UTF-8'?>");
+                sw.WriteLine("<?xml version='1.0' encoding='utf-8'?>");
                 sw.WriteLine(Encoding.UTF8.GetString(arr).Trim());
                 sw.Close();
-                errorInfo = "";
+                _errorInfo = "";
             }
             catch (System.Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->DataSet2XmlFile");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->DataSet2XmlFile");
             }
             finally
             {
@@ -338,13 +429,13 @@ namespace Peer.PublicCsharpModule.xml
         /// <param name="rootNode">xml根节点</param>
         /// <param name="childNode">xml二级子节点</param>
         /// <returns></returns>
-        public  string DataTableToXmlSring(DataTable dt, string rootNode, string childNode)
+        public string DataTableToXmlSring(DataTable dt, string rootNode, string childNode)
         {
             string RetStr = "";
             try
             {
                 StringBuilder strXml = new StringBuilder();
-                strXml.Append("<?xml version='1.0' encoding='UTF-8'?>");
+                strXml.Append("<?xml version='1.0' encoding='utf-8'?>");
                 //添加根节点名称
                 strXml.AppendFormat("<{0}>", rootNode);
                 if (dt != null)
@@ -366,11 +457,11 @@ namespace Peer.PublicCsharpModule.xml
                 RetStr = strXml.ToString();
                 strXml.Clear();
                 strXml = null;
-                errorInfo = "";
+                _errorInfo = "";
             }
             catch (Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->DataTableToXmlSring");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->DataTableToXmlSring");
             }
             return RetStr;//返回Xml字符串
         }
@@ -394,17 +485,17 @@ namespace Peer.PublicCsharpModule.xml
                     myXmlReader.Close();
                     fsReadXml.Close();
                     fsReadXml.Dispose();
-                    errorInfo = "";
+                    _errorInfo = "";
                 }
                 else
                 {
-                    errorInfo = string.Format("路径为{0}的xml文件不存在！", XmlFilePath) ;
+                    _errorInfo = string.Format("路径为{0}的xml文件不存在！", XmlFilePath);
                 }
             }
             catch (Exception ex)
             {
                 dsXML = null;
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->XmlFile2DataSet");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->XmlFile2DataSet");
             }
             return dsXML;
         }
@@ -436,12 +527,12 @@ namespace Peer.PublicCsharpModule.xml
                             i++;
                         }
                     }
-                    errorInfo = "";
+                    _errorInfo = "";
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->XMLString2StringArray");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->XMLString2StringArray");
             }
             return str;
         }
@@ -458,11 +549,11 @@ namespace Peer.PublicCsharpModule.xml
             {
                 XmlNode xn = Start_At_Node.SelectSingleNode(Node_XPath);
                 RetStr = xn.InnerText;
-                errorInfo = "";
+                _errorInfo = "";
             }
             catch (Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->GetNodeValueFromNode");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->GetNodeValueFromNode");
             }
             return RetStr;
         }
@@ -484,11 +575,11 @@ namespace Peer.PublicCsharpModule.xml
             {
                 XmlNode xn = xmlDoc.SelectSingleNode(node);
                 value = (attribute.Equals("") ? xn.InnerText : xn.Attributes[attribute].Value);
-                errorInfo = "";
+                _errorInfo = "";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->GetNodeValueFromXpath");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->GetNodeValueFromXpath");
             }
             return value;
         }
@@ -498,18 +589,18 @@ namespace Peer.PublicCsharpModule.xml
         /// <param name="Parent">XML父节点</param>
         /// <param name="Node_Name">子节点名称</param>
         /// <param name="Node_Value">子节点值</param>
-        public void CreateNode(XmlNode ParentNode,string Node_Name,string Node_Value)
+        public void CreateNode(XmlNode ParentNode, string Node_Name, string Node_Value)
         {
             try
             {
                 XmlElement subElement = ParentNode.OwnerDocument.CreateElement(Node_Name);
                 subElement.InnerText = Node_Value;
                 ParentNode.AppendChild(subElement);
-                errorInfo = "";
+                _errorInfo = "";
             }
             catch (Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->CreateNode");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->CreateNode");
             }
         }
         /// <summary>
@@ -527,15 +618,15 @@ namespace Peer.PublicCsharpModule.xml
                 XmlNode rootNode = xmlDoc.CreateElement("XML");
                 xmlDoc.AppendChild(rootNode);
                 for (int i = 0; i < StringArray.Length; i++)
-                 {
-                     CreateNode(rootNode, string.Format("Array{0}", i), StringArray[i]); 
-                 }
+                {
+                    CreateNode(rootNode, string.Format("Array{0}", i), StringArray[i]);
+                }
                 RetStr = xmlDoc.InnerXml;
-                errorInfo = "";
+                _errorInfo = "";
             }
             catch (Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->StringArray2XMLString");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->StringArray2XMLString");
             }
             return RetStr;
         }
@@ -557,12 +648,12 @@ namespace Peer.PublicCsharpModule.xml
                 xmlDoc.AppendChild(xmlDeclaration);
                 XmlNode root = xmlDoc.CreateElement(rootNodeName);
                 xmlDoc.AppendChild(root);
-                errorInfo = "";
+                _errorInfo = "";
                 isSuccess = true;
             }
             catch (Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->CreateXmlDocument");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->CreateXmlDocument");
             }
             return isSuccess;
         }
@@ -580,12 +671,12 @@ namespace Peer.PublicCsharpModule.xml
                 {
                     XmlNodeList nodelist = xmlRootElement.ChildNodes;  //得到该节点的子节点
                     RetInt = nodelist.Count;
-                    errorInfo = "";
+                    _errorInfo = "";
                 }
             }
             catch (Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->SectionCount");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->SectionCount");
             }
             return RetInt;
         }
@@ -608,18 +699,324 @@ namespace Peer.PublicCsharpModule.xml
                         if (nodeIns != null)
                         {
                             RetStr = nodeIns.Name;
-                            errorInfo = "";
+                            _errorInfo = "";
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->GetSections");
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->GetSections");
+            }
+            return RetStr;
+        }
+        /// <summary>
+        /// 此函数仅用于生成包含SQL语句参数值的XML串
+        /// </summary>
+        /// <param name="Para_Name">参数名</param>
+        /// <param name="Para_Value">参数值</param>
+        /// <param name="Para_Type">参数类型</param>
+        /// <returns></returns>
+        public Boolean AddParameter(string Para_Name, string Para_Value, string Para_Type)
+        {
+            Boolean RetFlag = false;
+            try
+            {
+                XmlElement xmlRootElement = xmlDoc.DocumentElement;
+                XmlNode nodeIns = xmlRootElement.SelectSingleNode(Para_Name);
+                if (nodeIns == null)
+                {
+                    XmlElement theElem = xmlDoc.CreateElement(Para_Name);
+                    theElem.InnerText = Para_Value;
+                    theElem.SetAttribute("lx", Para_Type);
+                    xmlRootElement.AppendChild(theElem);
+                    _errorInfo = "";
+                }
+                else
+                {
+                    nodeIns.InnerText = Para_Type;
+                    nodeIns.Attributes["lx"].Value = Para_Type;
+                    _errorInfo = "参数已经存在！";
+                }
+                RetFlag = true;
+            }
+            catch (Exception ex)
+            {
+                string[] Paras = { Para_Name, Para_Value, Para_Type };
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->AddParameter", String.Join("->", Paras));
+            }
+            return RetFlag;
+        }
+        /// <summary>
+        /// 读取指定名称的参数的信息
+        /// </summary>
+        /// <param name="Para_Name">参数名称</param>
+        /// <returns></returns>
+        public Tuple<string, string, string> ReadParameter(string Para_Name)
+        {
+            Tuple<string, string, string> tupleIns = null;
+            try
+            {
+                XmlElement xmlRootElement = xmlDoc.DocumentElement;
+                XmlNode nodeIns = xmlRootElement.SelectSingleNode(Para_Name);
+                if (nodeIns == null)
+                {
+                    _errorInfo = "参数不存在！";
+                }
+                else
+                {
+                    string Para_Value = nodeIns.InnerText;
+                    string Para_Type = nodeIns.Attributes["lx"].Value;
+                    tupleIns = new Tuple<string, string, string>(Para_Name, Para_Value, Para_Type);
+                    _errorInfo = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->ReadParameter", Para_Name);
+            }
+            return tupleIns;
+        }
+        /// <summary>
+        /// 跟INI一样,添加section
+        /// </summary>
+        /// <param name="SectionName">节点名称</param>
+        /// <returns></returns>
+        public Boolean AddSection(string SectionName)
+        {
+            Boolean RetFlag = false;
+            try
+            {
+                XmlElement xmlRootElement = xmlDoc.DocumentElement;
+                XmlNode nodeIns = xmlRootElement.SelectSingleNode(SectionName);
+                if (nodeIns == null)
+                {
+                    XmlElement theElem = xmlDoc.CreateElement(SectionName);
+                    xmlRootElement.AppendChild(theElem);
+                    _errorInfo = "";
+                    RetFlag = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->AddSection", SectionName);
+            }
+            return RetFlag;
+        }
+        /// <summary>
+        /// 删除Section
+        /// </summary>
+        /// <param name="SectionName">节点名称</param>
+        /// <returns></returns>
+        public Boolean DelSection(string SectionName)
+        {
+            Boolean RetFlag = false;
+            try
+            {
+                XmlElement xmlRootElement = xmlDoc.DocumentElement;
+                XmlNode nodeIns = xmlRootElement.SelectSingleNode(SectionName);
+                if (nodeIns != null)
+                {
+                    XmlElement theElem = xmlDoc.CreateElement(SectionName);
+                    xmlRootElement.RemoveChild(theElem);
+                    _errorInfo = "";
+                    RetFlag = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->DelSection", SectionName);
+            }
+            return RetFlag;
+        }
+        /// <summary>
+        /// 跟INI一样,向指定Section节点添加KEY和值
+        /// </summary>
+        /// <param name="Section">二级节点名称</param>
+        /// <param name="Key">三级节点名称</param>
+        /// <param name="Key">三级节点值</param>
+        /// <returns></returns>
+        public Boolean AddKey(string Section, string Key, string value)
+        {
+            Boolean RetFlag = false;
+            try
+            {
+                //第一层根节点
+                XmlElement xmlRootElement = xmlDoc.DocumentElement;
+                //编程中经常遇到空对象引用的异常，有时为了代码简洁我们可以这么写.
+                //如果xmlRootElement是null的话，直接调用HasChildNodes会异常，加上问号则为null时不再执行后面的方法.
+                if (xmlRootElement?.HasChildNodes == true)
+                {
+                    //第二层Section
+                    XmlNode sectionNode = xmlRootElement.SelectSingleNode(Section);
+                    if (sectionNode?.HasChildNodes == true)
+                    {
+                        //第三层Key
+                        XmlNode KeyNode = sectionNode.SelectSingleNode(Key);
+                        if (KeyNode == null)
+                        {
+                            XmlElement theElem = xmlDoc.CreateElement(Key);
+                            theElem.InnerText = value;
+                            sectionNode.AppendChild(theElem);
+                        }
+                        else
+                        {
+                            KeyNode.InnerText = value;
+                        }
+                        RetFlag = true;
+                    }
+                    else
+                    {
+                        _errorInfo = "Section not found.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->AddKey", string.Format("{0}->{1}->{2}", Section, Key, value));
+            }
+            return RetFlag;
+        }
+
+        /// <summary>
+        /// 删除第三级节点
+        /// </summary>
+        /// <param name="Section">二级节点名称</param>
+        /// <param name="Key">三级节点名称</param>
+        /// <returns></returns>
+        public Boolean DelKey(string Section, string Key)
+        {
+            Boolean RetFlag = false;
+            try
+            {
+                //第一层根节点
+                XmlElement xmlRootElement = xmlDoc.DocumentElement;
+                //编程中经常遇到空对象引用的异常，有时为了代码简洁我们可以这么写.
+                //如果xmlRootElement是null的话，直接调用HasChildNodes会异常，加上问号则为null时不再执行后面的方法.
+                if (xmlRootElement?.HasChildNodes == true)
+                {
+                    //第二层Section
+                    XmlNode sectionNode = xmlRootElement.SelectSingleNode(Section);
+                    if (sectionNode?.HasChildNodes == true)
+                    {
+                        //第三层Key
+                        XmlNode KeyNode = sectionNode.SelectSingleNode(Key);
+                        if (KeyNode == null)
+                        {
+                            _errorInfo = "Key not found.";
+                        }
+                        else
+                        {
+                            sectionNode.RemoveChild(KeyNode);
+                            _errorInfo = "";
+                            RetFlag = true;
+                        }
+                    }
+                    else
+                    {
+                        _errorInfo = "Section not found.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->DelKey", string.Format("{0}->{1}", Section, Key));
+            }
+            return RetFlag;
+        }
+        /// <summary>
+        /// 编码或者解码方式格式化POST到IIS的字符串数据
+        /// </summary>
+        /// <param name="PostData">post的字符串内容</param>
+        /// <param name="CodeType">FormatType类型</param>
+        /// <returns></returns>
+        public string FormatDeEnString(string PostData , FormatType CodeType)
+        {
+            string RetStr = "";
+            try
+            {
+                switch (CodeType)
+                {
+                    case FormatType.DeCode:
+                        //utf-8的编码代码页是65001
+                        RetStr = HttpUtility.UrlDecode(PostData, System.Text.Encoding.GetEncoding(65001));
+                        break;
+                    case FormatType.EnCode:
+                        //65001   utf-8   Unicode(UTF-8)
+                        //两次编码解决原理：https://blog.csdn.net/xjaaaxl/article/details/60868692
+                        RetStr = HttpUtility.UrlEncode(HttpUtility.UrlEncode(PostData, System.Text.Encoding.GetEncoding(65001)));
+                        break;
+                }
+                _errorInfo = "";
+            }
+            catch (Exception ex)
+            {
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->FormatString", string.Format("{0}->{1}", PostData, CodeType.ToString()));
+            }
+            return RetStr;
+        }
+        /// <summary>
+        /// 将xml格式的string格式化，方便阅读。
+        /// </summary>
+        /// <param name="XMLString">xml串</param>
+        /// <returns></returns>
+        public string FormatXML(string XMLString)
+        {
+            string RetStr = "";
+            try
+            {
+                XmlDocument document = new XmlDocument();
+                document.LoadXml(XMLString);
+                MemoryStream memoryStream = new MemoryStream();
+                XmlTextWriter writer = new XmlTextWriter(memoryStream, System.Text.Encoding.GetEncoding(65001))
+                {
+                    Formatting = Formatting.Indented//缩进
+                };
+                document.Save(writer);
+                StreamReader streamReader = new StreamReader(memoryStream);
+                memoryStream.Position = 0;
+                RetStr = streamReader.ReadToEnd();
+                streamReader.Close();
+                memoryStream.Close();
+                _errorInfo = "";
+            }
+            catch (Exception ex)
+            {
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->FormatString", XMLString);
             }
             return RetStr;
         }
 
+        /// <summary>
+        /// 返回字符串加解密
+        /// </summary>
+        /// <param name="DataSetString">字符串内容</param>
+        /// <param name="CodeType">FormatType类型</param>
+        /// <returns></returns>
+        public string FormatReturnString(string DataSetXMLString, FormatType CodeType)
+        {
+            string RetStr = "";
+            try
+            {
+                switch (CodeType)
+                {
+                    case FormatType.DeCode:
+                        //utf-8的编码代码页是65001
+                        RetStr = HttpUtility.UrlDecode(DataSetXMLString, System.Text.Encoding.GetEncoding(65001));
+                        break;
+                    case FormatType.EnCode:
+                        //65001   utf-8   Unicode(UTF-8)
+                        RetStr = HttpUtility.UrlEncode(DataSetXMLString, System.Text.Encoding.GetEncoding(65001));
+                        break;
+                }
+                _errorInfo = "";
+            }
+            catch (Exception ex)
+            {
+                _errorInfo = Log.LogLib.GetExceptionInfo(ex, "Peer.PublicCsharpModule.xml->ClassicXML->FormatReturnString", string.Format("{0}->{1}", DataSetXMLString, CodeType.ToString()));
+            }
+            return RetStr;
+        }
     }
 
     public enum FormatType

@@ -218,7 +218,7 @@ namespace winformTest
             DataSet ds= insXml.XmlFile2DataSet(xmlstr);
             if (ds != null)
             {
-                str = insXml.ConvertDataTableToXML(ds.Tables[0], "xml", "book");
+                str = insXml.DataTableToXmlSring(ds.Tables[0], "xml", "book");
                 MessageBox.Show(str);
             }
 
@@ -230,9 +230,64 @@ namespace winformTest
             DataSet ds = insXml.XmlString2DataSet("<books><book><name>123</name><name1>123</name1></book><book><name>1234</name><name1>123</name1></book></books>");
             if (ds != null)
             {
-                string str= insXml.ConvertDataTableToXML(ds.Tables[0], "xml", "book");
+                string str= insXml.DataTableToXmlSring(ds.Tables[0], "xml", "book");
                 MessageBox.Show(str);
             }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            string str ="<resultInfo code =\"202\" message=\"原密码输入不正确！\"/>";
+
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(str);
+            String code = xmlDoc.FirstChild.Attributes["code"].Value.ToString();
+            MessageBox.Show(code);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+
+            //创建根节点
+
+            xmlDoc.LoadXml("<?xml version = '1.0' encoding='utf-8'?><MSG></MSG>");
+
+            XmlElement root = xmlDoc.DocumentElement;
+
+            //创建一级节点
+
+            XmlElement flight = xmlDoc.CreateElement("flight");
+
+            //创建第二级节点
+
+            XmlElement flightPlan = xmlDoc.CreateElement("flightPlan");
+
+            XmlElement fpid = xmlDoc.CreateElement("fpid");
+
+            fpid.InnerText = "2345";
+
+            flightPlan.AppendChild(fpid);
+
+            //创建第二个节点
+
+            XmlElement fpflag = xmlDoc.CreateElement("fpflag");
+            fpflag.InnerText = "123";
+
+            fpflag.SetAttribute("name", "fpflag");
+
+            flightPlan.AppendChild(fpflag);
+
+            flight.AppendChild(flightPlan);
+
+            root.AppendChild(flight);
+
+            string str = xmlDoc.InnerXml;
+            MessageBox.Show(str);
+
+            ClassicXML insXml = new ClassicXML();
+             str= insXml.FormatXML(xmlDoc.InnerXml);
+            MessageBox.Show(str);
         }
     }
 }
