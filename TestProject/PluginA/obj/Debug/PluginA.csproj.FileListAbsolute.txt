@@ -1,0 +1,9 @@
+D:\MaiHe\Peer.PublicModule\TestProject\PluginA\bin\Debug\PluginA.dll
+D:\MaiHe\Peer.PublicModule\TestProject\PluginA\bin\Debug\PluginA.pdb
+D:\MaiHe\Peer.PublicModule\TestProject\PluginA\obj\Debug\PluginA.csproj.CoreCompileInputs.cache
+D:\MaiHe\Peer.PublicModule\TestProject\PluginA\obj\Debug\PluginA.dll
+D:\MaiHe\Peer.PublicModule\TestProject\PluginA\obj\Debug\PluginA.pdb
+D:\MaiHe\Peer.PublicModule\TestProject\PluginA\bin\Debug\Interfaces.dll
+D:\MaiHe\Peer.PublicModule\TestProject\PluginA\bin\Debug\Interfaces.pdb
+D:\MaiHe\Peer.PublicModule\TestProject\PluginA\obj\Debug\PluginA.csprojAssemblyReference.cache
+D:\MaiHe\Peer.PublicModule\TestProject\PluginA\obj\Debug\PluginA.csproj.CopyComplete

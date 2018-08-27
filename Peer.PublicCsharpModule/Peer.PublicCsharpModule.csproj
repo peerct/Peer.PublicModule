@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppDomainLib.cs" />
     <Compile Include="CallProcess\CmdCallPython.cs" />
     <Compile Include="Config\AppSettingConfigLib.cs" />
     <Compile Include="Config\iniFileOperateLib.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Httpapi\HttpWeb.cs" />
     <Compile Include="Log\ApplicationException.cs" />
     <Compile Include="Log\LogLib.cs" />
+    <Compile Include="network\FTPClass.cs" />
     <Compile Include="network\FtpLib.cs" />
     <Compile Include="network\HttpLib.cs" />
     <Compile Include="network\HttpProcessLib.cs">
